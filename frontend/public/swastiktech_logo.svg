@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-130 -75 260 150" width="100%" height="100%">
+  <defs>
+    <!-- Left loop: Electric Blue → Deep Blue -->
+    <linearGradient id="gCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#2563eb"/>
+      <stop offset="50%"  stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+
+    <!-- Right loop: Deep Violet → Bright Violet -->
+    <linearGradient id="gPink" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#3b0764"/>
+      <stop offset="50%"  stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+
+    <!-- Specular highlight (light gloss on top of tube) -->
+    <linearGradient id="gSpec" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="60%"  stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- === FILTERS === -->
+    <!-- Ambient soft glow / bloom behind shape -->
+    <filter id="outerGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Sharp inner glow for thin lines -->
+    <filter id="innerGlow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#ffffff" flood-opacity="0.7"/>
+    </filter>
+
+    <!-- Deep cast shadow -->
+    <filter id="castShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="6" stdDeviation="5" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- ================================================================
+       STEP 1: Far ambient glow bloom (very wide, very soft, behind all)
+       ================================================================ -->
+  <g filter="url(#outerGlow)" opacity="0.5">
+    <path d="M 0,0 C -22,-58 -90,-58 -90,0 C -90,58 -22,58 0,0"
+          fill="none" stroke="url(#gPink)" stroke-width="50" stroke-linecap="round"/>
+    <path d="M 0,0 C 22,58 90,58 90,0 C 90,-58 22,-58 0,0"
+          fill="none" stroke="url(#gCyan)" stroke-width="50" stroke-linecap="round"/>
+  </g>
+
+  <!-- ================================================================
+       STEP 2: LEFT LOOP — Pink/Purple — Painted FIRST (goes behind)
+       3-layer stack: dark base → color mid → specular top
+       ================================================================ -->
+  <!-- 2a. Cast shadow / dark base -->
+  <path d="M 0,0 C -22,-58 -90,-58 -90,0 C -90,58 -22,58 0,0"
+        fill="none" stroke="#000000" stroke-width="34"
+        stroke-linecap="round" opacity="0.6" filter="url(#castShadow)"/>
+  <!-- 2b. Dark underside of tube (rim shading at bottom) -->
+  <path d="M 0,0 C -22,-58 -90,-58 -90,0 C -90,58 -22,58 0,0"
+        fill="none" stroke="#0a0020" stroke-width="28" stroke-linecap="round"/>
+  <!-- 2c. Main color tube -->
+  <path d="M 0,0 C -22,-58 -90,-58 -90,0 C -90,58 -22,58 0,0"
+        fill="none" stroke="url(#gPink)" stroke-width="22" stroke-linecap="round"/>
+  <!-- 2d. Bright inner tube (saturated center) -->
+  <path d="M 0,0 C -22,-58 -90,-58 -90,0 C -90,58 -22,58 0,0"
+        fill="none" stroke="url(#gPink)" stroke-width="14" stroke-linecap="round" opacity="0.8"/>
+  <!-- 2e. Specular highlight strip along the top -->
+  <path d="M 0,0 C -22,-58 -90,-58 -90,0 C -90,58 -22,58 0,0"
+        fill="none" stroke="url(#gSpec)" stroke-width="6"
+        stroke-linecap="round" filter="url(#innerGlow)"/>
+
+  <!-- ================================================================
+       STEP 3: RIGHT LOOP — Cyan/Blue — Painted SECOND (goes in front/over)
+       ================================================================ -->
+  <!-- 3a. Cast shadow / dark base -->
+  <path d="M 0,0 C 22,58 90,58 90,0 C 90,-58 22,-58 0,0"
+        fill="none" stroke="#000000" stroke-width="34"
+        stroke-linecap="round" opacity="0.6" filter="url(#castShadow)"/>
+  <!-- 3b. Dark underside of tube -->
+  <path d="M 0,0 C 22,58 90,58 90,0 C 90,-58 22,-58 0,0"
+        fill="none" stroke="#001030" stroke-width="28" stroke-linecap="round"/>
+  <!-- 3c. Main color tube -->
+  <path d="M 0,0 C 22,58 90,58 90,0 C 90,-58 22,-58 0,0"
+        fill="none" stroke="url(#gCyan)" stroke-width="22" stroke-linecap="round"/>
+  <!-- 3d. Bright inner tube -->
+  <path d="M 0,0 C 22,58 90,58 90,0 C 90,-58 22,-58 0,0"
+        fill="none" stroke="url(#gCyan)" stroke-width="14" stroke-linecap="round" opacity="0.8"/>
+  <!-- 3e. Specular highlight strip -->
+  <path d="M 0,0 C 22,58 90,58 90,0 C 90,-58 22,-58 0,0"
+        fill="none" stroke="url(#gSpec)" stroke-width="6"
+        stroke-linecap="round" filter="url(#innerGlow)"/>
+
+  <!-- ================================================================
+       STEP 4: WEAVE RE-PAINT — Left loop top arm crosses OVER right loop.
+       Re-paint a small segment of left loop near the center crossing,
+       so it appears the pink tube comes out ON TOP of the blue tube.
+       ================================================================ -->
+  <!-- Small left-loop segment (top side near crossing) repainted on top -->
+  <path d="M 0,0 C -8,-22 -18,-38 -28,-48"
+        fill="none" stroke="#1a0030" stroke-width="28" stroke-linecap="round"/>
+  <path d="M 0,0 C -8,-22 -18,-38 -28,-48"
+        fill="none" stroke="url(#gPink)" stroke-width="22" stroke-linecap="round"/>
+  <path d="M 0,0 C -8,-22 -18,-38 -28,-48"
+        fill="none" stroke="url(#gSpec)" stroke-width="6"
+        stroke-linecap="round" opacity="0.9"/>
+
+  <!-- ================================================================
+       STEP 5: CENTER CROSSING NODE — glowing orb at the intersection
+       ================================================================ -->
+  <!-- Outer dark occlusion ring (AO) -->
+  <circle cx="0" cy="0" r="18" fill="#000000" opacity="0.7"/>
+  <!-- Metallic ring base -->
+  <circle cx="0" cy="0" r="13" fill="#0c001a"/>
+  <!-- Glowing color ring -->
+  <circle cx="0" cy="0" r="10" fill="url(#gCyan)" opacity="0.95"/>
+  <!-- Inner bright orb -->
+  <circle cx="0" cy="0" r="5.5" fill="#ffffff" opacity="1"/>
+  <!-- Specular glint on the orb -->
+  <ellipse cx="-1.5" cy="-2" rx="2" ry="1.5" fill="#ffffff" opacity="0.9"/>
+</svg>
