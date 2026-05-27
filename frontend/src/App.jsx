@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
+import Footer from './components/Footer';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
           />
         </Routes>
       </main>
+      <Footer />
     </AuthProvider>
   );
 }

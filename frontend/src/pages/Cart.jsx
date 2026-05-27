@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 import { Trash2, Plus, Minus } from 'lucide-react';
-import { getImageUrl } from '../api';
+import { getImageUrl, placeOrder } from '../api';
 import { Link } from 'react-router-dom';
 import './Cart.css';
 
@@ -76,9 +76,21 @@ const Cart = () => {
             <span>Total</span>
             <span className="text-gradient">₹{cartTotal.toFixed(2)}</span>
           </div>
-          <button className="btn-primary checkout-btn" onClick={() => {
-            alert('Checkout flow not implemented in demo.');
-            clearCart();
+          <button className="btn-primary checkout-btn" onClick={async () => {
+            try {
+              const orderData = {
+                items: cartItems.map(item => ({
+                  productId: item.product.id,
+                  quantity: item.quantity
+                }))
+              };
+              await placeOrder(orderData);
+              alert('Order placed successfully with Cash on Delivery!');
+              clearCart();
+            } catch (error) {
+              console.error('Failed to place order:', error);
+              alert('Failed to place order. Please try again or login first.');
+            }
           }}>
             Proceed to Checkout
           </button>

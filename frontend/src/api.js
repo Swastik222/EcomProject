@@ -80,3 +80,10 @@ export const registerUser = async (username, password) => {
   const response = await publicAxios.post('/auth/register', { username, password });
   return response.data;
 };
+
+/* ─── Order API ──────────────────────────────────────────────────── */
+
+export const placeOrder = async (orderData) => {
+  const response = await authAxios.post('/orders', orderData);
+  return response.data;
+};
